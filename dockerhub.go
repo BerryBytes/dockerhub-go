@@ -53,6 +53,8 @@ func NewClient(httpClient *http.Client) *Client {
 	c.Repositories = (*RepositoriesService)(&c.common)
 	c.User = (*UserService)(&c.common)
 	c.Webhook = (*WebhookService)(&c.common)
+	c.Organization = (*OrganizationService)(&c.common)
+	c.Tag = (*TagService)(&c.common)
 	return c
 }
 
