@@ -39,6 +39,16 @@ type RepositoryList struct {
 	Results []Repository `json:"results"`
 }
 
+// ListOptions specifies the optional parameters to various List methods that
+// support pagination.
+type ListOptions struct {
+	// For paginated result sets, page of results to retrieve.
+	Page int `url:"page,omitempty"`
+
+	// For paginated result sets, the number of results to include per page.
+	PageSize int `url:"page_size,omitempty"`
+}
+
 // Repository represents a Dockerhub repository.
 type Repository struct {
 	User            string  `json:"user"`
@@ -157,8 +167,13 @@ func (s *RepositoriesService) SetRepositoryPrivacy(ctx context.Context, namespac
 }
 
 // GetRepositories gets all repositories from a given Dockerhub namespace.
-func (s *RepositoriesService) GetRepositories(ctx context.Context, namespace string) (*RepositoryList, error) {
+func (s *RepositoriesService) GetRepositories(ctx context.Context, namespace string, opt *ListOptions) (*RepositoryList, error) {
 	slug := fmt.Sprintf("/repositories/%s/", namespace)
+	slug, err := addOptions(slug, opt)
+	if err != nil {
+		return nil, err
+	}
+
 	req, err := s.client.NewRequest(http.MethodGet, slug, nil)
 	if err != nil {
 		return nil, err
