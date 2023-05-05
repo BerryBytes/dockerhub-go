@@ -161,7 +161,7 @@ func TestRepositoriesService_GetRepositories(t *testing.T) {
 		w.Write(mustJSONMarshal(list))
 	})
 
-	res, err := client.Repositories.GetRepositories(context.Background(), namespace)
+	res, err := client.Repositories.GetRepositories(context.Background(), namespace, &ListOptions{})
 	if err != nil {
 		t.Errorf("Repositories.GetRepositories returned error: %v", err)
 	}
