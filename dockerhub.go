@@ -30,6 +30,8 @@ type Client struct {
 	Repositories *RepositoriesService
 	User         *UserService
 	Webhook      *WebhookService
+	Organization *OrganizationService
+	Tag          *TagService
 }
 
 // NewClient returns a new Dockerhub client. If an httpClient is not
