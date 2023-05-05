@@ -9,14 +9,17 @@ import (
 
 func main() {
 	client := dockerhub.NewClient(nil)
-	err := client.Auth.Login(context.Background(), "sugamdocker35", "594c9bff-b4f9-4c2f-b056-81dd7559ba97")
-
+	err := client.Auth.Login(context.Background(), "<DOCKER_USERNAME>", "<DOCKER_PERSONAL_TOKEN>")
 	if err != nil {
 		return
 	}
-	list, err := client.Repositories.GetRepositories(context.Background(), "sugamdocker35", &dockerhub.ListOptions{
+	list, err := client.Repositories.GetRepositories(context.Background(), "namespace", &dockerhub.ListOptions{
+		Page:     1,
 		PageSize: 20,
 	})
+	if err != nil {
+		return
+	}
 	fmt.Println(len(list.Results), list.Count)
 	for _, data := range list.Results {
 		fmt.Println(data.Name)
